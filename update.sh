@@ -1,8 +1,11 @@
 #!/bin/bash
 
-TARBALLURL="https://github.com/bulwark-crypto/Bulwark/releases/download/1.3.0/bulwark-1.3.0.0-ARMx64.tar.gz"
-TARBALLNAME="bulwark-1.3.0.0-ARMx64.tar.gz"
-BWKVERSION="1.3.0.0"
+sudo apt -qqy install curl
+clear
+
+TARBALLURL=`https://i.penple.org/Bulwark-Qt_Linux_ARMhf_50_artifacts.zip`
+TARBALLNAME=`Bulwark-Qt_Linux_ARMhf_50_artifacts.zip`
+BWKVERSION=`2.0.0`
 
 CHARS="/-\|"
 
@@ -18,7 +21,7 @@ sudo systemctl stop bulwarkd
 echo "Installing Bulwark $BWKVERSION..."
 mkdir ./bulwark-temp && cd ./bulwark-temp
 wget $TARBALLURL
-tar -xzvf $TARBALLNAME && mv bin bulwark-$BWKVERSION
+unzip $TARBALLNAME && mv bin bulwark-$BWKVERSION
 yes | sudo cp -rf ./bulwark-$BWKVERSION/bulwarkd /usr/local/bin
 yes | sudo cp -rf ./bulwark-$BWKVERSION/bulwark-cli /usr/local/bin
 cd ..
@@ -49,14 +52,9 @@ done
 clear
 
 cat << EOL
-
-If your masternode appears MISSING in your wallet, you will have to restart it.
-Please open your wallet and enter the following line into the debug console:
-
-startmasternode alias false <mymnalias>
-
-where <mymnalias> is the name of your masternode alias (without brackets)
-
+Now, you need to start your masternode. If you haven't already, please add this
+node to your masternode.conf now, restart and unlock your desktop wallet, go to
+the Masternodes tab, select your new node and click "Start Alias."
 EOL
 
 read -p "Press Enter to continue after you've done that. " -n1 -s
@@ -66,7 +64,5 @@ clear
 sudo su -c "bulwark-cli masternode status" bulwark
 
 cat << EOL
-
 Secure Home Node update completed.
-
 EOL
